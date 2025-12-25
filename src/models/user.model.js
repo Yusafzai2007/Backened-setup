@@ -15,9 +15,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userImg:{
+   type:String,
+   default:""
+  },
   role: {
     type: String,
-    enum: ["user", "admin"],
+    enum: ["user", "admin","vendor"],
     default: "user",
   },
   status: {
@@ -25,10 +29,13 @@ const userSchema = new mongoose.Schema({
     enum: ["active", "blocked"],
     default: "active",
   },
+
   createat: {
     type: Date,
     default: Date.now,
   },
+},{
+  timestamps:true
 });
 
 userSchema.pre("save", async function (next) {
@@ -37,7 +44,7 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.ispasswordcorrect = async function (password) {
-  password = await bcrypt.compare(password, this.password);
+ return password = await bcrypt.compare(password, this.password);
 };
 
 userSchema.methods.isaccesstoken = async function () {
@@ -64,4 +71,4 @@ userSchema.methods.isrefrehtoken = async function () {
   );
 };
 
-export const user = mongoose.model("user", userSchema);
+export const User = mongoose.model("User", userSchema);

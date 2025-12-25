@@ -7,16 +7,16 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadimages = async (localapth) => {
+const cloudinaryimg  = async (localapth) => {
   try {
     if (!localapth) return null;
 
     const response = await cloudinary.uploader.upload(localapth);
-    console.log(response);
+    console.log(response.url);
     return response;
   } catch (error) {
-    console.log(`cloudinary js error ${error}`);
+    fs.unlinkSync(localapth);
   }
 };
 
-export { uploadimages };
+export { cloudinaryimg  };
